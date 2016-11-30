@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <CubeCore></CubeCore>
   </div>
 </template>
 
 <script>
-import Hello from './components/Hello';
+import CubeCore from './components/CubeCore';
 
 export default {
   name: 'app',
   components: {
-    Hello,
+    CubeCore,
   },
 };
 </script>
