@@ -1,11 +1,11 @@
 <template lang="html">
     <div class="box" :style="styleObject">
-        <div class="face">{{''+x+y+z}}</div>
-        <div class="face">{{''+x+y+z}}</div>
-        <div class="face">{{''+x+y+z}}</div>
-        <div class="face">{{''+x+y+z}}</div>
-        <div class="face">{{''+x+y+z}}</div>
-        <div class="face">{{''+x+y+z}}</div>
+        <div class="face" :style="{background:color.x3}"></div>
+        <div class="face" :style="{background:color.y3}"></div>
+        <div class="face" :style="{background:color.z1}"></div>
+        <div class="face" :style="{background:color.y1}"></div>
+        <div class="face" :style="{background:color.z3}"></div>
+        <div class="face" :style="{background:color.x1}"></div>
     </div>
 </template>
 
@@ -29,7 +29,16 @@ export default {
       },
       rotateX: 0,
       rotateY: 0,
-      rotateZ: 0
+      rotateZ: 0,
+      color: {
+        x1: '',
+        x3: '',
+        y1: '',
+        y3: '',
+        z1: '',
+        z3: '',
+      },
+      colorCache: {}
     }
   },
   mounted() {
@@ -81,21 +90,20 @@ export default {
   },
   methods: {
     initColor() {
-      const faces = this.$el.querySelectorAll('.face');
       if (this.position[1] == 1) {
-        faces[3].style.background = 'blue'
+        this.color.y1 = 'blue'
       } else if (this.position[1] == 3) {
-        faces[1].style.background = 'green'
+        this.color.y3 = 'green'
       }
       if (this.position[2] == 1) {
-        faces[2].style.background = 'white'
+        this.color.z1 = 'white'
       } else if (this.position[2] == 3) {
-        faces[4].style.background = 'yellow'
+        this.color.z3 = 'yellow'
       }
       if (this.position[0] == 1) {
-        faces[5].style.background = 'orange'
+        this.color.x1 = 'orange'
       } else if (this.position[0] == 3) {
-        faces[0].style.background = 'red'
+        this.color.x3 = 'red'
       }
     },
   },
@@ -117,7 +125,6 @@ export default {
   top: 60px;
   left: 60px;
   transform-style: preserve-3d;
-  transition: all 0.5s ease-in-out;
 }
 
 .face {
