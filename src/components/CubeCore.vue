@@ -137,8 +137,8 @@ export default {
     },
     handleMouseDown(e) {
       this.dragging = true;
-      const firstX = e.clientX;
-      const firstY = e.clientY;
+      let firstX = e.clientX;
+      let firstY = e.clientY;
       document.onselectstart = function() {
         return false;
       };
@@ -147,10 +147,11 @@ export default {
       };
 
       const handleMouseMove = (event) => {
-        this.rotateY += (event.clientX - firstX) * 0.02;
-        this.rotateX -= (event.clientY - firstY) * 0.02;
+        this.rotateY += (event.clientX - firstX) * 0.5;
+        this.rotateX -= (event.clientY - firstY) * 0.5;
+        firstX = event.clientX;
+        firstY = event.clientY;
       };
-
       const handleMouseUp = () => {
         if (this.dragging) {
           this.dragging = false;
