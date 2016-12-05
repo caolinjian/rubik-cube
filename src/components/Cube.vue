@@ -65,19 +65,19 @@ export default {
     this.y = this.position[1];
     this.z = this.position[2];
     if (this.position[1] == 1) {
-      this.color.y1 = 'blue'
+      this.color.y1 = '#0500c1'
     } else if (this.position[1] == 3) {
-      this.color.y3 = 'green'
+      this.color.y3 = '#138804'
     }
     if (this.position[2] == 1) {
-      this.color.z1 = 'white'
+      this.color.z1 = '#f7f8f5'
     } else if (this.position[2] == 3) {
-      this.color.z3 = 'yellow'
+      this.color.z3 = '#f9fd0c'
     }
     if (this.position[0] == 1) {
-      this.color.x1 = 'orange'
+      this.color.x1 = '#f9640a'
     } else if (this.position[0] == 3) {
-      this.color.x3 = 'red'
+      this.color.x3 = '#c50209'
     }
   },
   computed: {
