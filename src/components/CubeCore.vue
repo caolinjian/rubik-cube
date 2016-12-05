@@ -80,9 +80,7 @@ export default {
       this.rotateing = true;
       const list = this.$children.filter(item => item[coordinate] == position);
       list.forEach((item) => {
-        console.log('---line---', item.color, item.colorCache);
         Object.assign(item.colorCache, item.color);
-        console.log('---line---', item.color, item.colorCache);
         item.$el.style.transition = 'all 0.5s ease-in-out';
         if (coordinate == 'y') {
           item.rotateX += clockwise;

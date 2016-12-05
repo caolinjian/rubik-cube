@@ -19,7 +19,6 @@ export default {
   props: ['position'],
   data() {
     return {
-      dataPosition: this.position,
       x: 0,
       y: 0,
       z: 0,
@@ -45,7 +44,21 @@ export default {
     this.x = this.position[0];
     this.y = this.position[1];
     this.z = this.position[2];
-    this.initColor();
+    if (this.position[1] == 1) {
+      this.color.y1 = 'blue'
+    } else if (this.position[1] == 3) {
+      this.color.y3 = 'green'
+    }
+    if (this.position[2] == 1) {
+      this.color.z1 = 'white'
+    } else if (this.position[2] == 3) {
+      this.color.z3 = 'yellow'
+    }
+    if (this.position[0] == 1) {
+      this.color.x1 = 'orange'
+    } else if (this.position[0] == 3) {
+      this.color.x3 = 'red'
+    }
   },
   computed: {
     styleObject() {
@@ -88,32 +101,6 @@ export default {
       }
     }
   },
-  methods: {
-    initColor() {
-      if (this.position[1] == 1) {
-        this.color.y1 = 'blue'
-      } else if (this.position[1] == 3) {
-        this.color.y3 = 'green'
-      }
-      if (this.position[2] == 1) {
-        this.color.z1 = 'white'
-      } else if (this.position[2] == 3) {
-        this.color.z3 = 'yellow'
-      }
-      if (this.position[0] == 1) {
-        this.color.x1 = 'orange'
-      } else if (this.position[0] == 3) {
-        this.color.x3 = 'red'
-      }
-    },
-  },
-  watch: {
-    dataPosition(val) {
-      this.x = val[0];
-      this.y = val[1];
-      this.z = val[2];
-    }
-  }
 }
 </script>
 
