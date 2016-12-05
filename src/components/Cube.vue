@@ -15,6 +15,26 @@
  ** 每个面（face）的顺序是前，右，下，左，上，后
  ** 左边已后左下为[1,1,1]，前后为x轴,左右为y轴,上下z轴。例如：前左下是[3,1,1]，后右下[1,3,1]
  */
+function myBrowser() {
+  const userAgent = navigator.userAgent; // 取得浏览器的userAgent字符串
+  const isOpera = userAgent.indexOf('Opera') > -1;
+  if (isOpera) {
+    return 'Opera'
+  } // 判断是否Opera浏览器
+  if (userAgent.indexOf('Firefox') > -1) {
+    return 'FF';
+  } // 判断是否Firefox浏览器
+  if (userAgent.indexOf('Chrome') > -1) {
+    return 'Chrome';
+  }
+  if (userAgent.indexOf('Safari') > -1) {
+    return 'Safari';
+  } // 判断是否Safari浏览器
+  if (userAgent.indexOf('compatible') > -1 && userAgent.indexOf('MSIE') > -1 && !isOpera) {
+    return 'IE';
+  } // 判断是否IE浏览器
+  return 'none'
+}
 export default {
   props: ['position'],
   data() {
@@ -84,11 +104,20 @@ export default {
         transform += ' translateY(-0em)'
         transformOrigin += ' 0.5em'
       }
+      const mb = myBrowser();
       if (this.position[0] == 1) {
-        transform += ' translateZ(-1.1em)'
+        if (mb == 'Safari') {
+          transform += ' translateZ(0em)'
+        } else {
+          transform += ' translateZ(-1.1em)'
+        }
         transformOrigin += ' 1.1em'
       } else if (this.position[0] == 3) {
-        transform += ' translateZ(1.1em)'
+        if (mb == 'Safari') {
+          transform += ' translateZ(0em)'
+        } else {
+          transform += ' translateZ(1.1em)'
+        }
         transformOrigin += ' -1.1em'
       } else if (this.position[0] == 2) {
         transform += ' translateZ(-0em)'
