@@ -1,11 +1,11 @@
 import Vue from 'vue';
-import Hello from 'src/components/Hello';
+import CubeCore from 'src/components/CubeCore';
 
-describe('Hello.vue', () => {
+describe('CubeCore.vue', () => {
   it('should render correct contents', () => {
     const vm = new Vue({
       el: document.createElement('div'),
-      render: h => h(Hello),
+      render: h => h(CubeCore),
     });
     expect(vm.$el.querySelector('.hello h1').textContent)
       .to.equal('Rubik Cube');
