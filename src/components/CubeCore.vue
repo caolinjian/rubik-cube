@@ -13,7 +13,8 @@
   <button type="button" name="button" @click="rotate('d', -1, 500)">D'</button>
   <button type="button" name="button" @click="rotate('l', 1, 500)">L'</button>
   <button type="button" name="button" @click="rotate('l', -1, 500)">L</button>
-  <button type="button" name="button" @click="randomRotate(25)">随机打乱</button>
+  <button type="button" name="button" @click="test">test打乱</button>
+  <button type="button" name="button" @click="randomRotate(25,true)">随机打乱</button>
   <div class="cube" :style="'transform: rotateX('+rotateX+'deg) rotateY('+rotateY+'deg)'">
     <Cube v-for="position in positions" :position="position" :ref="position[0]+'-'+position[1]+'-'+position[2]" :key="position[0]+'-'+position[1]+'-'+position[2]"></Cube>
   </div>
@@ -52,6 +53,7 @@ export default {
       rotateX: -35,
       rotateY: -45,
       rotateing: false,
+      looping: false,
       positions
     };
   },
@@ -131,17 +133,21 @@ export default {
         })
         this.rotateing = false;
         if (callback) {
-          callback();
+          this.$nextTick(() => {
+            callback();
+          })
         }
       }, timeout)
     },
     changeColor(c1, c2, d1, d2, d3) {
-      c1.color[`${d1}1`] = c2.colorCache[`${d2}3`];
-      c1.color[`${d1}3`] = c2.colorCache[`${d2}1`];
-      c1.color[`${d2}3`] = c2.colorCache[`${d1}3`];
-      c1.color[`${d2}1`] = c2.colorCache[`${d1}1`];
-      c1.color[`${d3}1`] = c2.colorCache[`${d3}1`];
-      c1.color[`${d3}3`] = c2.colorCache[`${d3}3`];
+      c1.color = {
+        [`${d1}1`]: c2.colorCache[`${d2}3`],
+        [`${d1}3`]: c2.colorCache[`${d2}1`],
+        [`${d2}3`]: c2.colorCache[`${d1}3`],
+        [`${d2}1`]: c2.colorCache[`${d1}1`],
+        [`${d3}1`]: c2.colorCache[`${d3}1`],
+        [`${d3}3`]: c2.colorCache[`${d3}3`],
+      }
     },
     transpose(x) {
       if (x == 1) {
@@ -181,16 +187,33 @@ export default {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     },
-    randomRotate(loopNum) {
+    randomRotate(loopNum, isClick) {
+      if (this.looping && isClick) {
+        return
+      }
       if (loopNum <= 0) {
+        this.looping = false;
         return;
       }
+      this.looping = true;
       const param = generateRandomRotateParams();
       this.rotate(
         param.direction,
         param.clockwise,
-        250,
-        this.randomRotate.bind(this, loopNum - 1));
+        500,
+        () => {
+          this.randomRotate(loopNum - 1, false)
+        });
+    },
+    test() {
+      this.rotate(
+        'r', 1,
+        500,
+        () => {
+          this.rotate(
+            'u', 1,
+            500);
+        });
     }
   },
   components: {
@@ -210,5 +233,6 @@ h1 {
   position: relative;
   margin: 120px auto;
   transform-style: preserve-3d;
+  -webkit-perspective: 10000000;
 }
 </style>
