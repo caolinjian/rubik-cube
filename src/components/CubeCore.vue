@@ -194,7 +194,7 @@ export default {
       document.addEventListener('mouseup', handleMouseUp);
     },
     randomRotate(loopNum, isClick) {
-      if (this.looping && isClick) {
+      if ((this.looping && isClick) || this.rotateing) {
         return
       }
       if (loopNum <= 0) {
@@ -237,7 +237,7 @@ h1 {
   width: 180px;
   height: 180px;
   position: relative;
-  margin: 120px auto;
+  margin: 100px auto;
   transform-style: preserve-3d;
   -webkit-perspective: 10000000;
 }
