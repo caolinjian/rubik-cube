@@ -131,17 +131,16 @@ export default {
             }
           }
         })
-        list.forEach((item) => {
-          console.log('---$el---', item.$el.style.transform);
-        })
         this.rotateing = false;
         if (callback) {
           this.$nextTick(() => {
-            list.forEach((item) => {
-              console.log('---nextTick---', item.$el.style.transform);
-              console.log('---id---------', document.getElementById(`${item.x}-${item.y}-${item.z}`).style.transform);
-            })
-            callback();
+            // list.forEach((item) => {
+            //   console.log('---nextTick---', item.$el.style.transform);
+            //   console.log('---id---------', document.getElementById(`${item.x}-${item.y}-${item.z}`).style.transform);
+            // })
+            setTimeout(() => {
+              callback();
+            }, 100)
           })
         }
       }, timeout)
