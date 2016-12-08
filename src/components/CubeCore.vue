@@ -16,7 +16,7 @@
   <button type="button" name="button" @click="test">test打乱</button>
   <button type="button" name="button" @click="randomRotate(25,true)">随机打乱</button>
   <div class="cube" :style="'transform: rotateX('+rotateX+'deg) rotateY('+rotateY+'deg)'">
-    <Cube v-for="position in positions" :position="position" :ref="position[0]+'-'+position[1]+'-'+position[2]" :key="position[0]+'-'+position[1]+'-'+position[2]"></Cube>
+    <Cube v-for="position in positions" :position="position" :ref="position[0]+'-'+position[1]+'-'+position[2]" :key="position[0]+'-'+position[1]+'-'+position[2]" :id="position[0]+'-'+position[1]+'-'+position[2]"></Cube>
   </div>
 </div>
 </template>
@@ -96,7 +96,7 @@ export default {
       const list = this.$children.filter(item => item[coordinate] == position);
       list.forEach((item) => {
         Object.assign(item.colorCache, item.color);
-        item.$el.style.transition = 'all 0.5s ease-in-out';
+        item.$el.style.transition = 'all .5s ease-in-out';
         if (coordinate == 'y') {
           item.rotateX += clockwise;
         } else if (coordinate == 'x') {
@@ -131,9 +131,16 @@ export default {
             }
           }
         })
+        list.forEach((item) => {
+          console.log('---$el---', item.$el.style.transform);
+        })
         this.rotateing = false;
         if (callback) {
           this.$nextTick(() => {
+            list.forEach((item) => {
+              console.log('---nextTick---', item.$el.style.transform);
+              console.log('---id---------', document.getElementById(`${item.x}-${item.y}-${item.z}`).style.transform);
+            })
             callback();
           })
         }
