@@ -1,18 +1,19 @@
 <template>
 <div class="hello" @mousedown="handleMouseDown">
   <h1>{{ title }}</h1>
-  <button type="button" name="button" @click="rotate('r',1)">R</button>
-  <button type="button" name="button" @click="rotate('r',-1)">R'</button>
-  <button type="button" name="button" @click="rotate('u',-1)">U</button>
-  <button type="button" name="button" @click="rotate('u',1)">U'</button>
-  <button type="button" name="button" @click="rotate('b',1)">B'</button>
-  <button type="button" name="button" @click="rotate('b',-1)">B</button>
-  <button type="button" name="button" @click="rotate('f',-1)">F'</button>
-  <button type="button" name="button" @click="rotate('f',1)">F</button>
-  <button type="button" name="button" @click="rotate('d',1)">D</button>
-  <button type="button" name="button" @click="rotate('d',-1)">D'</button>
-  <button type="button" name="button" @click="rotate('l',1)">L'</button>
-  <button type="button" name="button" @click="rotate('l',-1)">L</button>
+  <button type="button" name="button" @click="rotate('r', 1, 500)">R</button>
+  <button type="button" name="button" @click="rotate('r', -1, 500)">R'</button>
+  <button type="button" name="button" @click="rotate('u', -1, 500)">U</button>
+  <button type="button" name="button" @click="rotate('u', 1, 500)">U'</button>
+  <button type="button" name="button" @click="rotate('b', 1, 500)">B'</button>
+  <button type="button" name="button" @click="rotate('b', -1, 500)">B</button>
+  <button type="button" name="button" @click="rotate('f', -1, 500)">F'</button>
+  <button type="button" name="button" @click="rotate('f', 1, 500)">F</button>
+  <button type="button" name="button" @click="rotate('d', 1, 500)">D</button>
+  <button type="button" name="button" @click="rotate('d', -1, 500)">D'</button>
+  <button type="button" name="button" @click="rotate('l', 1, 500)">L'</button>
+  <button type="button" name="button" @click="rotate('l', -1, 500)">L</button>
+  <button type="button" name="button" @click="randomRotate(25)">随机打乱</button>
   <div class="cube" :style="'transform: rotateX('+rotateX+'deg) rotateY('+rotateY+'deg)'">
     <Cube v-for="position in positions" :position="position" :ref="position[0]+'-'+position[1]+'-'+position[2]" :key="position[0]+'-'+position[1]+'-'+position[2]"></Cube>
   </div>
@@ -31,6 +32,18 @@ for (let x = 1; x < 4; x++) {
   }
 }
 
+function generateRandomRotateParams() {
+  const param = {
+    direction: '',
+    clockwise: 0
+  };
+  const directions = ['r', 'u', 'b', 'f', 'd', 'l'];
+  param.direction = directions[Math.floor(Math.random() * 6)];
+  const clockwises = [-1, 1];
+  param.clockwise = clockwises[Math.floor(Math.random() * 2)];
+  return param;
+}
+
 export default {
   name: 'CubeCore',
   data() {
@@ -43,7 +56,7 @@ export default {
     };
   },
   methods: {
-    rotate(direction, clockwise) {
+    rotate(direction, clockwise, timeout, callback) {
       if (this.rotateing) {
         return
       }
@@ -117,7 +130,10 @@ export default {
           }
         })
         this.rotateing = false;
-      }, 500)
+        if (callback) {
+          callback();
+        }
+      }, timeout)
     },
     changeColor(c1, c2, d1, d2, d3) {
       c1.color[`${d1}1`] = c2.colorCache[`${d2}3`];
@@ -164,6 +180,17 @@ export default {
 
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
+    },
+    randomRotate(loopNum) {
+      if (loopNum <= 0) {
+        return;
+      }
+      const param = generateRandomRotateParams();
+      this.rotate(
+        param.direction,
+        param.clockwise,
+        250,
+        this.randomRotate.bind(this, loopNum - 1));
     }
   },
   components: {
