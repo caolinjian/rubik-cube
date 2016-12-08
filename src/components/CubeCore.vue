@@ -13,7 +13,7 @@
   <button type="button" name="button" @click="rotate('d', -1, 500)">D'</button>
   <button type="button" name="button" @click="rotate('l', 1, 500)">L'</button>
   <button type="button" name="button" @click="rotate('l', -1, 500)">L</button>
-  <button type="button" name="button" @click="randomRotate(10)">随机打乱</button>
+  <button type="button" name="button" @click="randomRotate(25)">随机打乱</button>
   <div class="cube" :style="'transform: rotateX('+rotateX+'deg) rotateY('+rotateY+'deg)'">
     <Cube v-for="position in positions" :position="position" :ref="position[0]+'-'+position[1]+'-'+position[2]" :key="position[0]+'-'+position[1]+'-'+position[2]"></Cube>
   </div>
