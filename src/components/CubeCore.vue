@@ -73,14 +73,6 @@ export default {
       positions
     };
   },
-  mounted() {
-    document.onselectstart = function() {
-      return false;
-    };
-    document.ondragstart = function() {
-      return false;
-    };
-  },
   methods: {
     rotate(direction, clockwise, timeout, callback) {
       if (this.rotateing) {

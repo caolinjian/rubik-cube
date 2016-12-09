@@ -21,6 +21,7 @@ html,body{
     height: 100%;
     margin: 0;
     font-size: 60px;
+    user-select:none;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
