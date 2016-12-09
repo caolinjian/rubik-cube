@@ -33,15 +33,27 @@ for (let x = 1; x < 4; x++) {
   }
 }
 
-function generateRandomRotateParams() {
+function generateRandomRotateParams(last) {
   const param = {
     direction: '',
     clockwise: 0
   };
+
+  const isReserve = (lhs, rhs) => {
+    return lhs.direction === rhs.direction && lhs.clockwise + rhs.clockwise === 0
+  }
+
   const directions = ['r', 'u', 'b', 'f', 'd', 'l'];
   param.direction = directions[Math.floor(Math.random() * 6)];
   const clockwises = [-1, 1];
   param.clockwise = clockwises[Math.floor(Math.random() * 2)];
+
+  if (last !== undefined) {
+    if (isReserve(param, last)) {
+      return generateRandomRotateParams(last);
+    }
+  }
+
   return param;
 }
 
@@ -193,7 +205,8 @@ export default {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('mouseup', handleMouseUp);
     },
-    randomRotate(loopNum, isClick) {
+
+    randomRotate(loopNum, isClick, lastParam) {
       if ((this.looping && isClick) || this.rotateing) {
         return
       }
@@ -202,13 +215,14 @@ export default {
         return;
       }
       this.looping = true;
-      const param = generateRandomRotateParams();
+      const param = generateRandomRotateParams(lastParam);
+
       this.rotate(
         param.direction,
         param.clockwise,
         500,
         () => {
-          this.randomRotate(loopNum - 1, false)
+          this.randomRotate(loopNum - 1, false, param)
         });
     },
     test() {
