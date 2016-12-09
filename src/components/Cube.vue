@@ -141,6 +141,7 @@ export default {
 
 .face {
   position: absolute;
+  border-radius: 3.14px;
   top: 0;
   left: 0;
   width: 1rem;
