@@ -18,7 +18,7 @@
   </div>
   <div class="opacity-set">
     <label>透明度</label>
-    <input @mousemove.stop="()=>{}" type="range" v-model="opacity" min="0" max="100" >
+    <input @mousemove.stop="()=>{}" type="range" v-model="opacity" min="0" max="100">
   </div>
   <div class="cube" :style="'transform: rotateX('+rotateX+'deg) rotateY('+rotateY+'deg)'">
     <Cube v-for="position in positions" :position="position" :ref="position[0]+'-'+position[1]+'-'+position[2]" :key="position[0]+'-'+position[1]+'-'+position[2]" :id="position[0]+'-'+position[1]+'-'+position[2]" :opacity="opacity/100"></Cube>
@@ -154,15 +154,7 @@ export default {
         })
         this.rotateing = false;
         if (callback) {
-          this.$nextTick(() => {
-            // list.forEach((item) => {
-            //   console.log('---nextTick---', item.$el.style.transform);
-            //   console.log('---id---------', document.getElementById(`${item.x}-${item.y}-${item.z}`).style.transform);
-            // })
-            setTimeout(() => {
-              callback();
-            }, 100)
-          })
+          window.requestAnimationFrame(callback)
         }
       }, 500)
     },
