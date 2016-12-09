@@ -1,22 +1,24 @@
 <template>
 <div class="hello" @mousedown="handleMouseDown">
   <h1>{{ title }}</h1>
-  <button type="button" name="button" @click="rotate('r', 1, 500)">R</button>
-  <button type="button" name="button" @click="rotate('r', -1, 500)">R'</button>
-  <button type="button" name="button" @click="rotate('u', -1, 500)">U</button>
-  <button type="button" name="button" @click="rotate('u', 1, 500)">U'</button>
-  <button type="button" name="button" @click="rotate('b', 1, 500)">B'</button>
-  <button type="button" name="button" @click="rotate('b', -1, 500)">B</button>
-  <button type="button" name="button" @click="rotate('f', -1, 500)">F'</button>
-  <button type="button" name="button" @click="rotate('f', 1, 500)">F</button>
-  <button type="button" name="button" @click="rotate('d', 1, 500)">D</button>
-  <button type="button" name="button" @click="rotate('d', -1, 500)">D'</button>
-  <button type="button" name="button" @click="rotate('l', 1, 500)">L'</button>
-  <button type="button" name="button" @click="rotate('l', -1, 500)">L</button>
-  <button type="button" name="button" @click="randomRotate(25,true)">随机打乱</button>
+  <div class="button-group">
+    <div class="button" @click="rotate('r', 1)">R</div>
+    <div class="button" @click="rotate('r', -1)">R'</div>
+    <div class="button" @click="rotate('u', -1)">U</div>
+    <div class="button" @click="rotate('u', 1)">U'</div>
+    <div class="button" @click="rotate('b', 1)">B'</div>
+    <div class="button" @click="rotate('b', -1)">B</div>
+    <div class="button" @click="rotate('f', -1)">F'</div>
+    <div class="button" @click="rotate('f', 1)">F</div>
+    <div class="button" @click="rotate('d', 1)">D</div>
+    <div class="button" @click="rotate('d', -1)">D'</div>
+    <div class="button" @click="rotate('l', 1)">L'</div>
+    <div class="button" @click="rotate('l', -1)">L</div>
+    <div class="button" @click="randomRotate(25,true)">随机打乱</div>
+  </div>
   <div class="opacity-set">
     <label>透明度</label>
-    <input type="range" v-model="opacity" min="0" max="100">
+    <input @mousemove.stop="()=>{}" type="range" v-model="opacity" min="0" max="100" >
   </div>
   <div class="cube" :style="'transform: rotateX('+rotateX+'deg) rotateY('+rotateY+'deg)'">
     <Cube v-for="position in positions" :position="position" :ref="position[0]+'-'+position[1]+'-'+position[2]" :key="position[0]+'-'+position[1]+'-'+position[2]" :id="position[0]+'-'+position[1]+'-'+position[2]" :opacity="opacity/100"></Cube>
@@ -74,7 +76,10 @@ export default {
     };
   },
   methods: {
-    rotate(direction, clockwise, timeout, callback) {
+    rotate(direction, clockwise, callback, isnotclick) {
+      if (this.looping && !isnotclick) {
+        return
+      }
       if (this.rotateing) {
         return
       }
@@ -159,7 +164,7 @@ export default {
             }, 100)
           })
         }
-      }, timeout)
+      }, 500)
     },
     changeColor(c1, c2, d1, d2, d3) {
       c1.color = {
@@ -215,10 +220,7 @@ export default {
       this.rotate(
         param.direction,
         param.clockwise,
-        500,
-        () => {
-          this.randomRotate(loopNum - 1, false, param)
-        });
+        this.randomRotate.bind(this, loopNum - 1, false, param), true);
     },
   },
   components: {
@@ -230,6 +232,23 @@ export default {
 <style>
 h1 {
   font-size: 30px;
+  margin: 20px 0;
+}
+
+.button-group {
+  height: 60px;
+  line-height: 30px;
+}
+
+.button {
+  padding: 0 20px;
+  line-height: 21px;
+  font-size: 14px;
+  display: inline-block;
+  margin: 0 10px 0 0;
+  border: 1px solid #333;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
 .cube {

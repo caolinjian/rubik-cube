@@ -29,7 +29,7 @@ html,body{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  padding-top: 30px;
+  padding-top: 20px;
   box-sizing: border-box;
   width: 100%;
   height: 100%;
