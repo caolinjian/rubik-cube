@@ -249,7 +249,7 @@ h1 {
   position: relative;
   margin: 100px auto;
   transform-style: preserve-3d;
-  -webkit-perspective: 10000000;
+  perspective: 10000000;
 }
 
 .opacity-set {

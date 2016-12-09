@@ -42,10 +42,6 @@ export default {
       x: 0,
       y: 0,
       z: 0,
-      styleObject: {
-        transform: '',
-        transformOrigin: ''
-      },
       rotateX: 0,
       rotateY: 0,
       rotateZ: 0,
@@ -126,7 +122,7 @@ export default {
       transform += ` rotateX(${this.rotateX * 90}deg) rotateY(${this.rotateY * 90}deg) rotateZ(${this.rotateZ * 90}deg)`
       return {
         transform,
-        transformOrigin
+        transformOrigin,
       }
     }
   },
