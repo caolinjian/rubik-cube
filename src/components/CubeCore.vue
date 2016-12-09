@@ -13,10 +13,13 @@
   <button type="button" name="button" @click="rotate('d', -1, 500)">D'</button>
   <button type="button" name="button" @click="rotate('l', 1, 500)">L'</button>
   <button type="button" name="button" @click="rotate('l', -1, 500)">L</button>
-  <button type="button" name="button" @click="test">test打乱</button>
   <button type="button" name="button" @click="randomRotate(25,true)">随机打乱</button>
+  <div class="opacity-set">
+    <label>透明度</label>
+    <input type="range" v-model="opacity" min="0" max="100">
+  </div>
   <div class="cube" :style="'transform: rotateX('+rotateX+'deg) rotateY('+rotateY+'deg)'">
-    <Cube v-for="position in positions" :position="position" :ref="position[0]+'-'+position[1]+'-'+position[2]" :key="position[0]+'-'+position[1]+'-'+position[2]" :id="position[0]+'-'+position[1]+'-'+position[2]"></Cube>
+    <Cube v-for="position in positions" :position="position" :ref="position[0]+'-'+position[1]+'-'+position[2]" :key="position[0]+'-'+position[1]+'-'+position[2]" :id="position[0]+'-'+position[1]+'-'+position[2]" :opacity="opacity/100"></Cube>
   </div>
 </div>
 </template>
@@ -66,7 +69,16 @@ export default {
       rotateY: -45,
       rotateing: false,
       looping: false,
+      opacity: 100,
       positions
+    };
+  },
+  mounted() {
+    document.onselectstart = function() {
+      return false;
+    };
+    document.ondragstart = function() {
+      return false;
     };
   },
   methods: {
@@ -179,13 +191,6 @@ export default {
       this.dragging = true;
       let firstX = e.clientX;
       let firstY = e.clientY;
-      document.onselectstart = function() {
-        return false;
-      };
-      document.ondragstart = function() {
-        return false;
-      };
-
       const handleMouseMove = (event) => {
         this.rotateY += (event.clientX - firstX) * 0.5;
         this.rotateX -= (event.clientY - firstY) * 0.5;
@@ -198,8 +203,6 @@ export default {
         }
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
-        document.onselectstart = null;
-        document.ondragstart = null;
       };
 
       document.addEventListener('mousemove', handleMouseMove);
@@ -225,16 +228,6 @@ export default {
           this.randomRotate(loopNum - 1, false, param)
         });
     },
-    test() {
-      this.rotate(
-        'r', 1,
-        500,
-        () => {
-          this.rotate(
-            'u', 1,
-            500);
-        });
-    }
   },
   components: {
     Cube,
@@ -254,5 +247,9 @@ h1 {
   margin: 100px auto;
   transform-style: preserve-3d;
   -webkit-perspective: 10000000;
+}
+
+.opacity-set {
+  font-size: 20px;
 }
 </style>

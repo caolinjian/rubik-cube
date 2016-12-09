@@ -1,11 +1,11 @@
 <template lang="html">
     <div class="box" :style="styleObject">
-        <div class="face" :style="{background:color.x3}"></div>
-        <div class="face" :style="{background:color.y3}"></div>
-        <div class="face" :style="{background:color.z1}"></div>
-        <div class="face" :style="{background:color.y1}"></div>
-        <div class="face" :style="{background:color.z3}"></div>
-        <div class="face" :style="{background:color.x1}"></div>
+        <div class="face" :style="{background:color.x3,opacity:opacity}"></div>
+        <div class="face" :style="{background:color.y3,opacity:opacity}"></div>
+        <div class="face" :style="{background:color.z1,opacity:opacity}"></div>
+        <div class="face" :style="{background:color.y1,opacity:opacity}"></div>
+        <div class="face" :style="{background:color.z3,opacity:opacity}"></div>
+        <div class="face" :style="{background:color.x1,opacity:opacity}"></div>
     </div>
 </template>
 
@@ -36,7 +36,7 @@ function myBrowser() {
   return 'none'
 }
 export default {
-  props: ['position'],
+  props: ['position', 'opacity'],
   data() {
     return {
       x: 0,
@@ -133,7 +133,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .box {
   position: absolute;
   width: 1rem;
@@ -152,7 +152,7 @@ export default {
   box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, .1);
   line-height: 1rem;
-  background: grey;
+  background: rgba(158,158,158,.5);
   font-size: 20px;
   text-align: center;
 }
