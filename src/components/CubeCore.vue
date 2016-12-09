@@ -154,7 +154,9 @@ export default {
         })
         this.rotateing = false;
         if (callback) {
-          window.requestAnimationFrame(callback)
+          this.$nextTick(() => {
+            window.requestAnimationFrame(callback)
+          })
         }
       }, 500)
     },
